@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Will You Be My Valentine? ❤️</title>
+  <meta name="description" content="A playful Valentine proposal with hearts, confetti, and shareable message." />
+  <style>
+    :root {
+      --bg1: #ffdee9;
+      --bg2: #b5fffc;
+      --primary: #ff4d6d;
+      --primary-dark: #c92a43;
+      --accent: #ffd6e0;
+      --text: #2b2b2b;
+      --card: #ffffff;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: radial-gradient(1200px 600px at 10% 10%, var(--bg1), transparent 60%),
+                  radial-gradient(1200px 800px at 90% 20%, var(--bg2), transparent 60%),
+                  linear-gradient(120deg, #fff 0%, #fff 100%);
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: min(720px, 92vw);
+      margin: 36px auto;
+      position: relative;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .heart-badge {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #ff8fa3, #ff4d6d 70%);
+      display: grid; place-items: center;
+      color: #fff; font-size: 28px;
+      box-shadow: 0 8px 16px rgba(255,77,109,0.35);
+      user-select: none;
+    }
+
+    h1 { font-size: 1.85rem; margin: 0; }
+    p  { margin: 6px 0 0; color: #4b4b4b; }
+
+    .fields { margin: 16px 0 22px; display: grid; gap: 12px; }
+
+    label { font-size: 0.93rem; color: #3a3a3a; }
+
+    input[type="text"], textarea {
+      width: 100%;
+      border: 2px solid #eee;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 1rem;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    textarea { min-height: 86px; resize: vertical; }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(255,77,109,0.12);
+    }
+
+    .buttons {
+      display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px;
+    }
+
+    .btn {
+      appearance: none; border: none; cursor: pointer;
+      border-radius: 999px; padding: 12px 20px; font-weight: 600; font-size: 1rem;
+      transition: transform .08s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .btn:active { transform: translateY(1px) scale(0.98); }
+    .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 8px 18px rgba(255,77,109,0.35); }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-outline { background: #fff; color: var(--primary); border: 2px solid var(--primary); }
+    .btn-soft { background: var(--accent); color: var(--primary-dark); }
+
+    .status { margin-top: 16px; font-size: 1.05rem; }
+
+    .celebrate {
+      margin-top: 18px;
+      background: #fff8fb;
+      border: 2px dashed #ffc2cf;
+      color: #c2185b;
+      border-radius: 14px;
+      padding: 14px;
+      display: none;
+    }
+    .celebrate.show { display: block; }
+
+    /* Hearts confetti overlay */
+    .overlay {
+      pointer-events: none;
+      position: fixed; inset: 0; overflow: hidden; z-index: 50;
+    }
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      animation: floatUp 1.8s ease-out forwards;
+      will-change: transform, opacity;
+      filter: drop-shadow(0 6px 8px rgba(255,77,109,0.20));
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(0.9) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      60% { transform: translateY(-60vh) scale(1.1) rotate(12deg); opacity: 1; }
+      100% { transform: translateY(-110vh) scale(0.95) rotate(-6deg); opacity: 0; }
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 420px) {
+      .heart-badge { width: 48px; height: 48px; font-size: 24px; }
+      h1 { font-size: 1.55rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay" aria-hidden="true" id="overlay"></div>
+  <main class="container">
+    <section class="card" aria-label="Valentine Proposal">
+      <div class="header">
+        <div class="heart-badge" aria-hidden="true">❤️</div>
+        <div>
+          <h1>Will you be my Valentine?</h1>
+          <p>Personalize it and hit Yes — hearts will fly!</p>
+        </div>
+      </div>
+
+      <div class="fields">
+        <div>
+          <label for="to">To (their name)</label>
+          <input id="to" name="to" type="text" placeholder="e.g., Alex" autocomplete="off" />
+        </div>
+        <div>
+          <label for="msg">Message</label>
+          <textarea id="msg" name="msg" placeholder="e.g., Dinner Friday? I promise dessert and cheesy jokes."></textarea>
+        </div>
+        <div>
+          <label for="from">From (your name)</label>
+          <input id="from" name="from" type="text" placeholder="e.g., Jamie" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button class="btn btn-primary" id="yes">Yes 💖</button>
+        <button class="btn btn-outline" id="no">No 🙈</button>
+        <button class="btn btn-soft" id="share">Copy share link 🔗</button>
+      </div>
+
+      <div class="status" id="status" aria-live="polite"></div>
+      <div class="celebrate" id="celebrate">
+        Yay! You said yes! 💞 See you soon.
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const el = {
+      to: document.getElementById('to'),
+      msg: document.getElementById('msg'),
+      from: document.getElementById('from'),
+      yes: document.getElementById('yes'),
+      no: document.getElementById('no'),
+      share: document.getElementById('share'),
+      status: document.getElementById('status'),
+      overlay: document.getElementById('overlay'),
+      celebrate: document.getElementById('celebrate')
+    };
+
+    // Utilities
+    const qs = new URLSearchParams(location.search);
+    function saveState() {
+      const data = { to: el.to.value, msg: el.msg.value, from: el.from.value };
+      try { localStorage.setItem('valentine:state', JSON.stringify(data)); } catch {}
+    }
+    function loadState() {
+      let data = null;
+      // Prefer query params for shareable links
+      if (qs.has('to') || qs.has('msg') || qs.has('from')) {
+        data = { to: qs.get('to') || '', msg: qs.get('msg') || '', from: qs.get('from') || '' };
+      } else {
+        try { data = JSON.parse(localStorage.getItem('valentine:state')||'null'); } catch {}
+      }
+      if (data) {
+        el.to.value = data.to || '';
+        el.msg.value = data.msg || '';
+        el.from.value = data.from || '';
+      }
+    }
+
+    function releaseHearts(count = 60) {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const palette = ['❤️','💖','💘','💝','💕','💞'];
+      for (let i=0;i<count;i++) {
+        const heart = document.createElement('span');
+        heart.className = 'heart';
+        heart.textContent = palette[Math.floor(Math.random()*palette.length)];
+        const left = Math.random() * w;
+        const delay = Math.random() * 300;
+        const size = 16 + Math.random() * 22;
+        heart.style.left = left + 'px';
+        heart.style.bottom = '-30px';
+        heart.style.fontSize = size + 'px';
+        heart.style.opacity = '0';
+        heart.style.animationDelay = (delay/1000) + 's';
+        el.overlay.appendChild(heart);
+        setTimeout(()=>{ heart.remove(); }, 2200 + delay);
+      }
+    }
+
+    function updateStatus(text, type='info') {
+      el.status.textContent = text;
+      el.status.style.color = type === 'error' ? '#b00020' : '#2b2b2b';
+    }
+
+    // Playful "No" button behavior
+    function dodgeNoButton() {
+      // On hover or focus, move the button to a random spot within the card
+      const btn = el.no;
+      const rect = btn.parentElement.getBoundingClientRect();
+      const maxX = rect.width - btn.offsetWidth;
+      const maxY = rect.height - btn.offsetHeight;
+      const x = Math.max(0, Math.min(maxX, Math.random() * maxX));
+      const y = Math.max(0, Math.min(maxY, Math.random() * maxY));
+      btn.style.position = 'relative';
+      btn.style.left = x + 'px';
+      btn.style.top = y + 'px';
+    }
+
+    // Events
+    loadState();
+
+    for (const k of ['to','msg','from']) {
+      el[k].addEventListener('input', saveState);
+    }
+
+    // Make the No button cheeky on pointer devices; on touch, soften behavior
+    const isTouch = matchMedia('(pointer: coarse)').matches;
+    if (!isTouch) {
+      el.no.addEventListener('mouseenter', dodgeNoButton);
+      el.no.addEventListener('focus', dodgeNoButton);
+    } else {
+      el.no.addEventListener('click', () => {
+        updateStatus('No? Maybe think it over… 💗');
+      });
+    }
+
+    el.no.addEventListener('click', () => {
+      // Secondary playful click on non-touch devices
+      if (!isTouch) updateStatus('You sure? The Yes button looks nicer 😄');
+    });
+
+    el.yes.addEventListener('click', () => {
+      const to = el.to.value.trim();
+      const msg = el.msg.value.trim();
+      const from = el.from.value.trim();
+      const headline = to ? `${to}, will you be my Valentine?` : 'Will you be my Valentine?';
+      const details = [msg, from ? `— ${from}` : ''].filter(Boolean).join(' ');
+      updateStatus(details ? `${headline} ${details}` : headline);
+      el.celebrate.classList.add('show');
+      releaseHearts(80);
+    });
+
+    el.share.addEventListener('click', async () => {
+      const url = new URL(location.href);
+      const params = new URLSearchParams({
+        to: el.to.value.trim(),
+        msg: el.msg.value.trim(),
+        from: el.from.value.trim()
+      });
+      url.search = params.toString();
+      const text = url.toString();
+      try {
+        await navigator.clipboard.writeText(text);
+        updateStatus('Share link copied! Paste it to send. 🔗');
+      } catch {
+        updateStatus('Unable to copy automatically. Manually copy this link: ' + text);
+      }
+    });
+
+    // Accessibility: announce hearts for screen readers on acceptance
+    el.yes.addEventListener('keyup', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') el.yes.click();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+[build]
+  publish = "."
+
+# No framework; single-file static site
+[build.environment]
+  NODE_VERSION = "18"
+
+# Keep pretty URLs optional; index.html served by default
+[redirects]
+  from = "/"
+  to = "/index.html"
+  status = 200
